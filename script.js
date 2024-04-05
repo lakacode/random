@@ -59,7 +59,10 @@ addToArrBtnDOM.addEventListener('click', function () {
 //======================
 //Click resetBtn
 resetDOM.addEventListener('click', function () {
-  curArr = defaultArr;
-  curArrDOM.textContent = `${curArr}`;
-  saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
+  const ask = prompt(`Do you want to reset ?`);
+  if (ask === 'y') {
+    curArr = defaultArr;
+    curArrDOM.textContent = `${curArr}`;
+    saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
+  }
 });
