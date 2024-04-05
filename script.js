@@ -59,7 +59,11 @@ addToArrBtnDOM.addEventListener('click', function () {
 //======================
 //Click resetBtn
 resetDOM.addEventListener('click', function () {
-  curArr = defaultArr;
+  // curArr = defaultArr;
+  // You should copy the defaultArr since assigning curArr = defaultArr points to the same object in memory
+  curArr = [...defaultArr];
+
+  
   curArrDOM.textContent = `${curArr}`;
   saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
 });
