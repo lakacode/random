@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 body {
-  max-width: 650px;
+  max-width: 800px;
   margin: 40px auto;
   border: 3px solid darkslategrey;
   font-family: sans-serif;
@@ -34,7 +34,7 @@ body {
 .btn-screen {
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 .random-number {
   font-size: 80px;
