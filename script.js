@@ -109,14 +109,20 @@ removeToArrBtnDOM.addEventListener('click', function () {
     //if element exist in curArr, it does not add.
     for (let removeItem of removeInputArr) {
       const removeIndex = curArr.indexOf(removeItem);
-      if (removeIndex !== -1) curArr.splice(removeIndex, 1);
+      if (removeIndex !== -1) {
+        const [lostCur] = curArr.splice(removeIndex, 1);
+        passedArr.push(lostCur);
+      }
     }
     const lengthCurArrAfter = curArr.length;
     if (lengthCurArrAfter < lengthCurArrBefore) {
       saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
+      saveToStorage('PASSED__ARRAY', JSON.stringify(passedArr));
+      console.log(passedArr);
       removeNumberInputDOM.value = '';
       alert(`Removed ${removeInputArr}`);
       curArrDOM.textContent = curArr.join(' ');
+      passedArrDOM.textContent = passedArr.join(' ');
     } else {
       alert(`No current lesson removed!`);
       removeNumberInputDOM.value = '';
