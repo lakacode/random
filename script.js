@@ -57,6 +57,8 @@ randomBtnDOM.addEventListener('click', function () {
   saveToStorage('PASSED__ARRAY', JSON.stringify(passedArr));
   curArrDOM.textContent = curArr.join(' ');
   saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
+  addNumberInputDOM.value = '';
+  removeNumberInputDOM.value = '';
 });
 //======================
 //Click Add to Array button
