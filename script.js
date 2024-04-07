@@ -73,8 +73,8 @@ addToArrBtnDOM.addEventListener('click', function () {
 //======================
 //Click resetBtn
 resetDOM.addEventListener('click', function () {
-  const ask = prompt(`Do you want to reset ?`);
-  if (ask === 'y') {
+  const ask = confirm(`Do you want to reset ?`);
+  if (ask) {
     curArr = [...defaultArr];
     passedArr = [];
     curArrDOM.textContent = curArr.join(' ');
