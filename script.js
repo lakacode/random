@@ -19,6 +19,7 @@ const defaultArr = [
 ];
 
 let passedArr = JSON.parse(getFromStorage('PASSED__ARRAY', [])).flat();
+console.log(passedArr);
 let curArr = JSON.parse(getFromStorage('CURRENT__ARRAY', []));
 
 if (curArr.length < 1) {
@@ -39,6 +40,7 @@ function randomNumber(arr) {
 
   // Get the random number from the array using the random index
   const randomNumber = arr[randomIndex];
+  console.log(randomNumber);
   return randomNumber;
 }
 //======================
@@ -49,7 +51,7 @@ randomBtnDOM.addEventListener('click', function () {
   const randomNum = randomNumber(curArr);
   randomNumberDOM.textContent = randomNum;
   const indexNum = curArr.indexOf(randomNum);
-  const passedNum = curArr.splice(indexNum, 1);
+  const [passedNum] = curArr.splice(indexNum, 1);
   passedArr.push(passedNum);
   passedArrDOM.textContent = passedArr.join(' ');
   saveToStorage('PASSED__ARRAY', JSON.stringify(passedArr));
@@ -60,16 +62,20 @@ randomBtnDOM.addEventListener('click', function () {
 //Click Add to Array button
 addToArrBtnDOM.addEventListener('click', function () {
   const addInputValue = +addNumberInputDOM.value;
+  console.log(addInputValue);
   const addValueInCurArr = curArr.indexOf(addInputValue);
   const addValueInPassedArr = passedArr.indexOf(addInputValue);
-  if (addValueInCurArr !== -1 || addValueInPassedArr !== -1) {
-    alert(`Number has Existed!`);
-  } else if (addInputValue === 0 || addInputValue === NaN) {
+  if (!addInputValue) {
     alert(`Wrong input!`);
+    addNumberInputDOM.value = '';
+  } else if (addValueInCurArr !== -1 || addValueInPassedArr !== -1) {
+    alert(`Number has Existed or Passed!`);
+    addNumberInputDOM.value = '';
   } else if (addValueInCurArr === -1) {
     curArr.push(addInputValue);
     curArrDOM.textContent = curArr.join(' ');
     saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
+    alert(`Added ${addInputValue}`);
   }
 });
 //======================
