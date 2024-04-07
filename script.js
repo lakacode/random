@@ -64,6 +64,8 @@ addToArrBtnDOM.addEventListener('click', function () {
   const addValueInPassedArr = passedArr.indexOf(addInputValue);
   if (addValueInCurArr !== -1 || addValueInPassedArr !== -1) {
     alert(`Number has Existed!`);
+  } else if (addInputValue === 0 || addInputValue === NaN) {
+    alert(`Wrong input!`);
   } else if (addValueInCurArr === -1) {
     curArr.push(addInputValue);
     curArrDOM.textContent = curArr.join(' ');
@@ -90,14 +92,17 @@ resetDOM.addEventListener('click', function () {
 //Click remove btn
 removeToArrBtnDOM.addEventListener('click', function () {
   const removeInputValue = removeNumberInputDOM.value;
-  const removeInputArr = removeInputValue.split(',').map((el) => Number(el));
-  //if element exist in curArr, it does not add.
-  for (let removeItem of removeInputArr) {
-    const removeIndex = curArr.indexOf(removeItem);
-    if (removeIndex !== 1) curArr.splice(removeIndex, 1);
-    saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
-    removeNumberInputDOM.value = '';
-
-    curArrDOM.textContent = curArr.join(' ');
+  if (removeInputValue === '') {
+    alert(`Wrong Input!`);
+  } else {
+    const removeInputArr = removeInputValue.split(',').map((el) => Number(el));
+    //if element exist in curArr, it does not add.
+    for (let removeItem of removeInputArr) {
+      const removeIndex = curArr.indexOf(removeItem);
+      if (removeIndex !== 1) curArr.splice(removeIndex, 1);
+      saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
+      removeNumberInputDOM.value = '';
+      curArrDOM.textContent = curArr.join(' ');
+    }
   }
 });
