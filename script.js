@@ -95,14 +95,23 @@ removeToArrBtnDOM.addEventListener('click', function () {
   if (removeInputValue === '') {
     alert(`Wrong Input!`);
   } else {
+    //if length < => lesson removed
+    const lengthCurArrBefore = curArr.length;
     const removeInputArr = removeInputValue.split(',').map((el) => Number(el));
     //if element exist in curArr, it does not add.
     for (let removeItem of removeInputArr) {
       const removeIndex = curArr.indexOf(removeItem);
-      if (removeIndex !== 1) curArr.splice(removeIndex, 1);
+      if (removeIndex !== -1) curArr.splice(removeIndex, 1);
+    }
+    const lengthCurArrAfter = curArr.length;
+    if (lengthCurArrAfter < lengthCurArrBefore) {
       saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
       removeNumberInputDOM.value = '';
+      alert(`Removed ${removeInputArr}`);
       curArrDOM.textContent = curArr.join(' ');
+    } else {
+      alert(`No current lesson removed!`);
+      removeNumberInputDOM.value = '';
     }
   }
 });
