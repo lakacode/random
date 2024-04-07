@@ -1,8 +1,12 @@
 'use strict';
 //DOM
 const curArrDOM = document.querySelector('#cur-arr');
+const passedArrDOM = document.querySelector('#passed-arr');
+
 const addToArrBtnDOM = document.querySelector('.add-to-arr');
-const addNumberInputDOM = document.querySelector('#addnumber');
+const removeToArrBtnDOM = document.querySelector('.remove-to-arr');
+const addNumberInputDOM = document.querySelector('#add-number');
+const removeNumberInputDOM = document.querySelector('#remove-number');
 const randomBtnDOM = document.querySelector('.random-btn');
 const randomNumberDOM = document.querySelector('.random-number');
 const resetDOM = document.querySelector('.reset');
@@ -13,10 +17,20 @@ const defaultArr = [
   72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
   91, 92, 93, 94, 95, 96, 97, 98, 99,
 ];
-//current array
 
+let passedArr = JSON.parse(getFromStorage('PASSED__ARRAY', [])).flat();
 let curArr = JSON.parse(getFromStorage('CURRENT__ARRAY', []));
-console.log(curArr);
+
+if (curArr.length < 1) {
+  curArr = [...defaultArr];
+  curArrDOM.textContent = curArr.join(' ');
+  saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
+} else {
+  //Init
+  curArrDOM.textContent = curArr.join(' ');
+  passedArrDOM.textContent = passedArr.join(' ');
+}
+
 //======================
 //Random Function
 // === Generate a random index within the range of the array length
@@ -28,31 +42,31 @@ function randomNumber(arr) {
   return randomNumber;
 }
 //======================
-//Init
-curArrDOM.textContent = `${curArr}`;
-//console.log(curArr);
+
 //======================
 //click randomBtn
 randomBtnDOM.addEventListener('click', function () {
   const randomNum = randomNumber(curArr);
   randomNumberDOM.textContent = randomNum;
   const indexNum = curArr.indexOf(randomNum);
-  curArr.splice(indexNum, 1);
-  curArrDOM.textContent = `${curArr}`;
+  const passedNum = curArr.splice(indexNum, 1);
+  passedArr.push(passedNum);
+  passedArrDOM.textContent = passedArr.join(' ');
+  saveToStorage('PASSED__ARRAY', JSON.stringify(passedArr));
+  curArrDOM.textContent = curArr.join(' ');
   saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
 });
 //======================
 //Click Add to Array button
 addToArrBtnDOM.addEventListener('click', function () {
-  const duplicateNumber = curArr.indexOf(+addNumberInputDOM.value);
-  if (
-    +addNumberInputDOM.value !== 0 &&
-    +addNumberInputDOM.value !== NaN &&
-    duplicateNumber === -1
-  ) {
-    curArr.push(+addNumberInputDOM.value);
-    curArrDOM.textContent = `${curArr}`;
-    addNumberInputDOM.value = '';
+  const addInputValue = +addNumberInputDOM.value;
+  const addValueInCurArr = curArr.indexOf(addInputValue);
+  const addValueInPassedArr = passedArr.indexOf(addInputValue);
+  if (addValueInCurArr !== -1 || addValueInPassedArr !== -1) {
+    alert(`Number has Existed!`);
+  } else if (addValueInCurArr === -1) {
+    curArr.push(addInputValue);
+    curArrDOM.textContent = curArr.join(' ');
     saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
   }
 });
@@ -61,8 +75,29 @@ addToArrBtnDOM.addEventListener('click', function () {
 resetDOM.addEventListener('click', function () {
   const ask = prompt(`Do you want to reset ?`);
   if (ask === 'y') {
-    curArr = defaultArr;
-    curArrDOM.textContent = `${curArr}`;
+    curArr = [...defaultArr];
+    passedArr = [];
+    curArrDOM.textContent = curArr.join(' ');
+    passedArrDOM.textContent = passedArr.join(' ');
+
     saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
+    saveToStorage('PASSED__ARRAY', JSON.stringify(passedArr));
+    randomNumberDOM.textContent = '';
+    addNumberInputDOM.value = '';
+  }
+});
+//======================
+//Click remove btn
+removeToArrBtnDOM.addEventListener('click', function () {
+  const removeInputValue = removeNumberInputDOM.value;
+  const removeInputArr = removeInputValue.split(',').map((el) => Number(el));
+  //if element exist in curArr, it does not add.
+  for (let removeItem of removeInputArr) {
+    const removeIndex = curArr.indexOf(removeItem);
+    if (removeIndex !== 1) curArr.splice(removeIndex, 1);
+    saveToStorage('CURRENT__ARRAY', JSON.stringify(curArr));
+    removeNumberInputDOM.value = '';
+
+    curArrDOM.textContent = curArr.join(' ');
   }
 });

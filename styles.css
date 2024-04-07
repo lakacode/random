@@ -13,11 +13,11 @@ body {
 .container {
   padding: 20px;
   margin: 20px;
-  border: 3px solid darkslategrey;
+  border: 1px solid darkslategrey;
 }
 .display {
   width: 100%;
-  border: 2px solid darkgrey;
+  border: 3px solid grey;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,7 +25,6 @@ body {
 }
 .screen {
   width: 100%;
-  border-bottom: 2px solid darkgrey;
   height: 100px;
   display: flex;
   justify-content: center;
@@ -41,9 +40,19 @@ body {
 .random-number {
   font-size: 80px;
 }
-.save {
-  margin: 3px;
+
+.arr-cell {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
+}
+.arr-name {
+  border: 1px solid black;
+  border-bottom: none;
+  font-weight: bold;
   padding: 5px;
+  background-color: gray;
+  color: white;
 }
 button.random-btn {
   width: 100px;
@@ -56,16 +65,32 @@ button.random-btn {
   gap: 10px;
   margin: 15px 0;
 }
-#cur-arr {
+#cur-arr,
+#passed-arr {
   width: 100%;
   font-size: 12px;
   white-space: normal;
   word-wrap: break-word;
-}
-.add-to-arr {
+  border: 1px solid black;
   padding: 5px;
-  margin-right: 5px;
 }
+
+.add-to-arr {
+  width: 80px;
+  padding: 5px;
+  margin: 5px 5px 5px 0;
+}
+.remove-to-arr {
+  padding: 5px;
+  margin: 5px 5px 5px 0;
+  width: 80px;
+}
+input {
+  height: 30px;
+  padding: 0 5px;
+  text-align: right;
+}
+
 .reset {
   padding: 5px;
 }
